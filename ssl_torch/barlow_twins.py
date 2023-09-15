@@ -1,7 +1,9 @@
+from typing import Optional
+
 import torch
 import torch.nn as nn
-from typing import Optional
 import torchvision
+
 
 def off_diagonal(x):
     # return a flattened view of the off-diagonal elements of a square matrix
@@ -19,7 +21,7 @@ class BarlowTwins(nn.Module):
         self.backbone.fc = nn.Identity()
 
         # projector
-        sizes = [2048] + list(map(int, args.projector.split('-')))
+        sizes = [2048] + list(map(int, args.projector.split("-")))
         layers = []
         for i in range(len(sizes) - 2):
             layers.append(nn.Linear(sizes[i], sizes[i + 1], bias=False))
@@ -32,12 +34,12 @@ class BarlowTwins(nn.Module):
         self.bn = nn.BatchNorm1d(sizes[-1], affine=False)
 
     def forward(self, y1, y2):
-        z1 = self.projector(self.backbone(y1))
-        z2 = self.projector(self.backbone(y2))
+        z1 = self.projector(self.backbone(y1))  # N x 2048
+        z2 = self.projector(self.backbone(y2))  # N x 2048
 
         # empirical cross-correlation matrix
-        c = self.bn(z1).T @ self.bn(z2)
-
+        c = self.bn(z1).T @ self.bn(z2)  # 2048 x 2048
+        
         # sum the cross-correlation matrix between all gpus
         c.div_(self.args.batch_size)
         torch.distributed.all_reduce(c)
@@ -46,4 +48,3 @@ class BarlowTwins(nn.Module):
         off_diag = off_diagonal(c).pow_(2).sum()
         loss = on_diag + self.args.lambd * off_diag
         return loss
-    

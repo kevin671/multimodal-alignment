@@ -1,12 +1,26 @@
 # %%
+import random
+
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from gaussian_blur import GaussianBlur
+from PIL import ImageFilter
 from torchvision import datasets, transforms
 from torchvision.transforms import transforms
 
 np.random.seed(0)
+
+
+class GaussianBlur(object):
+    def __init__(self, p):
+        self.p = p
+
+    def __call__(self, img):
+        if random.random() < self.p:
+            sigma = random.random() * 1.9 + 0.1
+            return img.filter(ImageFilter.GaussianBlur(sigma))
+        else:
+            return img
 
 
 class ContrastiveLearningViewGenerator(object):
@@ -35,7 +49,7 @@ class ContrastiveLearningDataset:
                 transforms.RandomHorizontalFlip(),
                 transforms.RandomApply([color_jitter], p=0.8),
                 transforms.RandomGrayscale(p=0.2),
-                GaussianBlur(kernel_size=int(0.1 * size)),
+                GaussianBlur(p=1.0),
                 transforms.ToTensor(),
             ]
         )
