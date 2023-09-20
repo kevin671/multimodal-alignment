@@ -13,15 +13,14 @@ def off_diagonal(x):
 
 
 class BarlowTwins(nn.Module):
-    def __init__(self, args, backbone=Optional[nn.Module]):
+    def __init__(self, backbone, args):
         super(BarlowTwins, self).__init__()
         self.args = args
-        if backbone is None:
-            self.backbone = torchvision.models.resnet50(zero_init_residual=True)
+        self.backbone = backbone
         self.backbone.fc = nn.Identity()
 
         # projector
-        sizes = [2048] + list(map(int, args.projector.split("-")))
+        sizes = [2048, 8192, 8192, 8192]
         layers = []
         for i in range(len(sizes) - 2):
             layers.append(nn.Linear(sizes[i], sizes[i + 1], bias=False))
@@ -39,12 +38,13 @@ class BarlowTwins(nn.Module):
 
         # empirical cross-correlation matrix
         c = self.bn(z1).T @ self.bn(z2)  # 2048 x 2048
-        
+
         # sum the cross-correlation matrix between all gpus
         c.div_(self.args.batch_size)
-        torch.distributed.all_reduce(c)
+        # torch.distributed.all_reduce(c)
 
         on_diag = torch.diagonal(c).add_(-1).pow_(2).sum()
         off_diag = off_diagonal(c).pow_(2).sum()
-        loss = on_diag + self.args.lambd * off_diag
+        lmbda = 5e-3
+        loss = on_diag + lmbda * off_diag
         return loss

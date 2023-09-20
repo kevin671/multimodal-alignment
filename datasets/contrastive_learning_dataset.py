@@ -77,39 +77,3 @@ class ContrastiveLearningDataset:
             raise ValueError(f"Invalid dataset {name}.")
         else:
             return dataset_fn()
-
-
-# %%
-cifar10_dataset = ContrastiveLearningDataset(root_folder="../data/cifar10").get_dataset("cifar10", 2)
-print(cifar10_dataset.data.shape)  # (50000, 32, 32, 3)
-loader = torch.utils.data.DataLoader(cifar10_dataset, batch_size=64, shuffle=False, num_workers=2)
-for i, data in enumerate(loader):
-    print(len(data))  # 2
-    print(len(data[0]))  # 2
-    print(data[0][0].shape)  # torch.Size([64, 3, 32, 32])
-    # show the first 24 images
-    fig, axs = plt.subplots(4, 6)
-    for i, ax in enumerate(axs.flatten()):
-        ax.imshow(data[0][0][i].permute(1, 2, 0))
-        ax.axis("off")
-
-    plt.show()
-
-    fig, axs = plt.subplots(4, 6)
-    for i, ax in enumerate(axs.flatten()):
-        ax.imshow(data[0][1][i].permute(1, 2, 0))
-        ax.axis("off")
-
-    plt.show()
-    break
-
-# show the first 24 images
-fig, axs = plt.subplots(4, 6)
-for i, ax in enumerate(axs.flatten()):
-    ax.imshow(cifar10_dataset.data[i])
-    ax.axis("off")
-
-plt.show()
-
-
-# %%
