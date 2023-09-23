@@ -1,6 +1,6 @@
 # multimodal-alignment
 
-## Contrastive Multiview Coding (Tian et al., 2020)
+## Contrastive Multiview Coding (Tian et al., 2019)
 
 Training CMC with ResNets requires at least 4 GPUs, the command of using resnet50v1 looks like:
 
