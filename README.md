@@ -22,7 +22,7 @@ CUDA_VISIBLE_DEVICES=0 python CMC_LinearProbing.py --dataset imagenet \
  --model resnet50v1 --learning_rate 30 --layer 6 
 ```
 
-Train and evaluate on ILSVRC 2012: `Acc@1 43.598 Acc@5 68.036`
+Train and evaluate on ILSVRC 2012: `Acc@1 48.200 Acc@5 74.156`
 
 ## Acknowledgement
 
