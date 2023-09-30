@@ -24,7 +24,9 @@ CUDA_VISIBLE_DEVICES=0 python CMC_LinearProbing.py --dataset imagenet \
 
 Train and evaluate on ILSVRC 2012: `Acc@1 56.104 Acc@5 79.316`
 
-## [Barlow Twins and HSIC](https://github.com/yaohungt/Barlow-Twins-HSIC/tree/main)
+## Barlow Twins (Zbontar et al., 2021) and HSIC
+
+This code is developed on top of [Barlow-Twins-HSIC](https://github.com/yaohungt/Barlow-Twins-HSIC/tree/main).
 
 ### Supported Dataset
 `CIFAR10`, `STL10`, and [`Tiny_ImageNet`](https://gist.github.com/moskomule/2e6a9a463f50447beca4e64ab4699ac4).
