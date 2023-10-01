@@ -162,10 +162,6 @@ class StlPairTransform:
             return self.transform(x)
 
 
-"""
-Train
-"""
-
 if torch.cuda.is_available():
     torch.backends.cudnn.benchmark = True
 
@@ -175,6 +171,11 @@ def off_diagonal(x):
     n, m = x.shape
     assert n == m
     return x.flatten()[:-1].view(n - 1, n + 1)[:, 1:].flatten()
+
+
+"""
+Train
+"""
 
 
 # train for one epoch to learn unique features

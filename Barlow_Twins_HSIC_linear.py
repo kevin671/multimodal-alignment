@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10
 from tqdm import tqdm
 
-import utils
+from Barlow_Twins_HSIC_main import CifarPairTransform, StlPairTransform, TinyImageNetPairTransform
 
 
 class Net(nn.Module):
@@ -89,34 +89,34 @@ if __name__ == "__main__":
         train_data = CIFAR10(
             root="data",
             train=True,
-            transform=utils.CifarPairTransform(train_transform=True, pair_transform=False),
+            transform=CifarPairTransform(train_transform=True, pair_transform=False),
             download=True,
         )
         test_data = CIFAR10(
             root="data",
             train=False,
-            transform=utils.CifarPairTransform(train_transform=False, pair_transform=False),
+            transform=CifarPairTransform(train_transform=False, pair_transform=False),
             download=True,
         )
     elif dataset == "stl10":
         train_data = torchvision.datasets.STL10(
             root="data",
             split="train",
-            transform=utils.StlPairTransform(train_transform=True, pair_transform=False),
+            transform=StlPairTransform(train_transform=True, pair_transform=False),
             download=True,
         )
         test_data = torchvision.datasets.STL10(
             root="data",
             split="test",
-            transform=utils.StlPairTransform(train_transform=False, pair_transform=False),
+            transform=StlPairTransform(train_transform=False, pair_transform=False),
             download=True,
         )
     elif dataset == "tiny_imagenet":
         train_data = torchvision.datasets.ImageFolder(
-            "data/tiny-imagenet-200/train", utils.TinyImageNetPairTransform(train_transform=True, pair_transform=False)
+            "data/tiny-imagenet-200/train", TinyImageNetPairTransform(train_transform=True, pair_transform=False)
         )
         test_data = torchvision.datasets.ImageFolder(
-            "data/tiny-imagenet-200/val", utils.TinyImageNetPairTransform(train_transform=False, pair_transform=False)
+            "data/tiny-imagenet-200/val", TinyImageNetPairTransform(train_transform=False, pair_transform=False)
         )
 
     train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True, num_workers=16, pin_memory=True)

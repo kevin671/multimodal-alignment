@@ -33,19 +33,18 @@ This code is developed on top of [Barlow-Twins-HSIC](https://github.com/yaohungt
 
 ### Train and Linear Evaluation using Barlow Twins 
 ```shell
-python main.py --lmbda 0.0078125 --corr_zero --batch_size 128 --feature_dim 128 --dataset cifar10
-python linear.py --dataset cifar10 --model_path results/0.0078125_128_128_cifar10_model.pth
+# ACC@1: 91.32% ACC@5: 99.81%
+python Barlow_Twins_HSIC_main.py --lmbda 0.0078125 --corr_zero --batch_size 128 --feature_dim 128 --dataset cifar10
+python Barlow_Twins_HSIC_linear.py --dataset cifar10 --model_path results/0.0078125_128_128_cifar10_model.pth
 ```
+
 ### Train and Linear Evaluation using HSIC
 ```shell
-python main.py --lmbda 0.0078125 --corr_neg_one --batch_size 128 --feature_dim 128 --dataset cifar10
-python linear.py --dataset cifar10 --model_path results/neg_corr_0.0078125_128_128_cifar10_model.pth
+# ACC@1: 91.44% ACC@5: 99.77%
+python Barlow_Twins_HSIC_main.py --lmbda 0.0078125 --corr_neg_one --batch_size 128 --feature_dim 128 --dataset cifar10
+python Barlow_Twins_HSIC_linear.py --dataset cifar10 --model_path results/neg_corr_0.0078125_128_128_cifar10_model.pth
 ```
 
 ## Acknowledgement
 
-This code is developed on top of:
-
-- [SimCLR](https://github.com/sthalles/SimCLR)
-- [Barlow Twins and HSIC](https://github.com/yaohungt/Barlow-Twins-HSIC)
-- [VICReg](https://github.com/facebookresearch/vicreg)
+This code is developed on top of
