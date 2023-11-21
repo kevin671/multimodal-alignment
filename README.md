@@ -12,13 +12,6 @@ Run the container:
 singularity exec container.sif 'my-command'
 ```
 
-## Multimodal
-
-```shell
-python3 
-```
-
-
 ## Contrastive Multiview Coding (Tian et al., 2019)
 
 Training CMC with ResNets requires at least 4 GPUs, the command of using resnet50v1 looks like:
